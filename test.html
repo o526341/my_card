@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生死小測驗</title>
+    <!-- bootstrap css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="h-100 d-flex flex-column">
+    <main class="flex-shrink-0">
+        <header class="fixed-top">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm border-top border-5 border-primary py-4"
+                style="background-color: #f8f6f7;">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="./index.html">首頁</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarText">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="./test.html">生死小測驗</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./cards.html">小卡片</a>
+                            </li>
+                        </ul>
+                        <span class="navbar-text">
+                            我們的小網頁
+                        </span>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="wrap" id="bf-quiz">
+            <h1>生死小測驗 🥰</h1>
+            <p class="sub">規則：選擇最符合的答案；選完即判定，最後有總分。</p>
+            <p class="footer">小提醒：錯超過2題你今天睡地板~~~~</p>
+
+            <div id="quiz"></div>
+
+            <div class="quiz-card" id="result" style="display:none">
+                <h2>成績單</h2>
+                <p class="score" id="finalScore"></p>
+                <p id="comment"></p>
+                <details>
+                    <summary>查看答題狀態</summary>
+                    <div id="review"></div>
+                </details>
+                <div class="quiz-card" id="wishPanel" style="display:none; margin-top:12px;">
+                    <h3>許願成功 ✨</h3>
+                    <p>他的願望：</p>
+                    <blockquote id="wishText" style="margin:0;font-weight:700;"></blockquote>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="bar" aria-label="完成度"><i id="progress"></i></div>
+                <div class="actions">
+                    <button class="btn" id="finishBtn">看結果</button>
+                    <button class="btn secondary" id="resetBtn">重玩一次</button>
+                    <span class="score" id="liveScore">得分：0 / 10</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-5 bg-primary py-3 text-white text-center">
+        <!-- .container>.row>.col-md-4*3{$} -->
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <p>不可以退貨喔</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+    <script>
+        /** 題庫（想客製就改這裡的題目、選項、正解索引 a） */
+        const QUESTIONS = [
+            {
+                q: "我們怎麼變熟的?", a: 2,
+                opts: ["一起去跨年", "打羽球", "一起看書", "忘了…但一定是命運安排"]
+            },
+            {
+                q: "我最喜歡的飲料店是哪間？", a: 1,
+                opts: ["50嵐", "可不可", "得正", "清心"]
+            },
+            {
+                q: "我最怕什麼？", a: 1,
+                opts: ["蟑螂", "蝴蝶", "衣服沒洗", "你不回訊息"]
+            },
+            {
+                q: "我最喜歡的顏色？", a: 0,
+                opts: ["藍", "綠", "黃", "粉"]
+            },
+            {
+                q: "我的生日？", a: 2,
+                opts: ["90/04/27", "90/04/18", "91/04/27", "91/04/18"]
+            },
+            {
+                q: "我最近跟你抱怨過的事？", a: 2,
+                opts: ["你太吵", "沒時間休息", "同學太臭", "天氣太熱"]
+            },
+            {
+                q: "我近期最想去旅行的地方？", a: 0,
+                opts: ["北海道滑雪", "沖繩潛水", "首爾逛街", "泰國吃美食"]
+            },
+            {
+                q: "我最喜歡你的什麼？", a: 2,
+                opts: ["沒有", "身上的味道", "白癡", "聰明"]
+            },
+            {
+                q: "我心情不好你該先做什麼？", a: 1,
+                opts: ["立刻講道理分析", "聽我抱怨", "裝死等我好", "下戰棋"]
+            },
+            {
+                q: "我最討厭的家事？", a: 2,
+                opts: ["掃地", "洗碗", "曬衣服", "倒垃圾"]
+            },
+        ];
+
+        const state = { answers: Array(QUESTIONS.length).fill(null), score: 0 };
+
+        const quizEl = document.getElementById('quiz');
+        const progressEl = document.getElementById('progress');
+        const liveScoreEl = document.getElementById('liveScore');
+        const resultEl = document.getElementById('result');
+        const finalScoreEl = document.getElementById('finalScore');
+        const commentEl = document.getElementById('comment');
+        const reviewEl = document.getElementById('review');
+        const finishBtn = document.getElementById('finishBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        /** 渲染題目 */
+        function render() {
+            quizEl.innerHTML = '';
+            QUESTIONS.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                card.innerHTML = `<p class="q-title">Q${idx + 1}. ${item.q}</p>`;
+                item.opts.forEach((text, optIdx) => {
+                    const id = `q${idx}_o${optIdx}`;
+                    const opt = document.createElement('label');
+                    opt.className = 'opt';
+                    opt.innerHTML = `
+        <input type="radio" name="q${idx}" id="${id}" value="${optIdx}">
+        <span>${text}</span>
+      `;
+                    opt.querySelector('input').addEventListener('change', () => {
+                        onPick(idx, optIdx, opt, card);
+                    });
+                    card.appendChild(opt);
+                });
+                quizEl.appendChild(card);
+            });
+            updateUI();
+        }
+
+        /** 選擇答案：即判定＋著色＋更新分數/進度 */
+        function onPick(qIdx, optIdx, optEl, cardEl) {
+            // 清除舊樣式
+            [...cardEl.querySelectorAll('.opt')].forEach(o => o.classList.remove('correct', 'wrong'));
+            // 記錄
+            state.answers[qIdx] = optIdx;
+
+            const isCorrect = (optIdx === QUESTIONS[qIdx].a);
+            if (isCorrect) optEl.classList.add('correct');
+            else {
+                optEl.classList.add('wrong');
+                const correctEl = cardEl.querySelector(`input[value="${QUESTIONS[qIdx].a}"]`).parentElement;
+                correctEl.classList.add('correct');
+            }
+            // 提示訊息
+            if (!cardEl.querySelector('.msg')) {
+                const msg = document.createElement('div');
+                msg.className = 'msg';
+                msg.textContent = isCorrect ? '✔ 答對了！' : '✘ ^_^';
+                cardEl.appendChild(msg);
+            } else {
+                cardEl.querySelector('.msg').textContent = isCorrect ? '✔ 答對了！' : '✘ ^_^';
+            }
+            updateUI();
+        }
+
+        /** 更新進度條與即時分數 */
+        function updateUI() {
+            const answered = state.answers.filter(a => a !== null).length;
+            state.score = state.answers.reduce((sum, a, idx) => sum + (a === QUESTIONS[idx].a ? 1 : 0), 0);
+            progressEl.style.width = Math.round(answered / QUESTIONS.length * 100) + '%';
+            liveScoreEl.textContent = `得分：${state.score} / ${QUESTIONS.length}`;
+        }
+
+        /** 顯示結果 */
+        function showResult() {
+            const total = QUESTIONS.length;
+            const s = state.score;
+            let txt = '';
+            if (s === total) txt = '太厲害了吧寶寶!!!!!! 💯';
+            else if (s >= total - 2) txt = '勉強接受 ❤️';
+            else if (s >= Math.ceil(total * 0.6)) txt = '睡地板囉~~~~~~~';
+            else txt = '??????????????????????';
+
+            finalScoreEl.textContent = `最終得分：${s} / ${total}`;
+            commentEl.textContent = txt;
+
+            reviewEl.innerHTML = QUESTIONS.map((q, i) => {
+                const user = state.answers[i];
+                const ok = user === q.a;
+                return `<p><span class="badge ${ok ? 'ok' : 'bad'}">${ok ? '✔ 正確' : '✘ 錯誤'}</span>
+      Q${i + 1} ${q.q}<br>
+      你的答案：${user !== null ? q.opts[user] : '未作答'}； 正解：${q.opts[q.a]}
+    </p>`;
+            }).join('');
+            resultEl.style.display = 'block';
+            // 捲到結果
+            const y = resultEl.getBoundingClientRect().top + window.scrollY - 20;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+
+        /** 重置 */
+        function resetAll() {
+            state.answers = Array(QUESTIONS.length).fill(null);
+            state.score = 0;
+            resultEl.style.display = 'none';
+            render();
+        }
+
+        /** 綁定事件並初始化 */
+        finishBtn.addEventListener('click', showResult);
+        resetBtn.addEventListener('click', resetAll);
+        render();
+    </script>
+</body>
+
+</html>

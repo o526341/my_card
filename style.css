@@ -1,0 +1,359 @@
+body {
+    /* display: grid; */
+    place-items: center;
+    min-height: 100vh;
+    /* overflow: hidden; */
+    overflow-x: hidden;
+    /* 水平隱藏 */
+    overflow-y: auto;
+    /* 垂直可以滾動 */
+    background: #fae1dd;
+    padding-top: 70px;
+    /* 根據 navbar 高度調整 */
+}
+
+.container {
+    position: relative;
+}
+
+.shadow-text {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+footer {
+    width: 100vw;
+    /* 佔滿整個 viewport 寬度 */
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.carousel-item img {
+    object-fit: cover;
+    /* 填滿框，保持比例，裁切多餘部分 */
+    height: 800px;
+    /* 固定高度 (可依需求調整) */
+}
+
+.bg-primary {
+    background: #f08080 !important;
+}
+
+
+.lb-close {
+    position: absolute;
+    top: -500px;
+    right: 10px;
+}
+
+.valentines {
+    position: relative;
+    top: 50px;
+    cursor: pointer;
+    animation: up 3s linear infinite;
+}
+
+.envelope {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    background: #f08080;
+    display: grid;
+    place-items: center;
+}
+
+.envelope::before {
+    content: '';
+    position: absolute;
+    width: 212px;
+    height: 212px;
+    background: #f08080;
+    transform: rotate(45deg);
+    top: -105px;
+    left: 44px;
+    border-radius: 30px 0 0 0;
+}
+
+.front {
+    position: absolute;
+    border-right: 180px solid #f4978e;
+    border-top: 95px solid transparent;
+    border-bottom: 100px solid transparent;
+    left: 120px;
+    top: 5px;
+    width: 0;
+    height: 0;
+    z-index: 10;
+}
+
+.front::before {
+    position: absolute;
+    content: '';
+    border-left: 300px solid #fda996;
+    border-top: 195px solid transparent;
+    left: -120px;
+    top: -95px;
+}
+
+.card {
+    position: relative;
+    width: 250px;
+    height: 180px;
+    background: #fff;
+    border-radius: 2px;
+    display: grid;
+    place-items: center;
+    transition: 1s;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 2px dashed #003049;
+}
+
+.valentines:hover .card {
+    transform: translateY(-100px);
+}
+
+.card .text {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 25px;
+    text-align: center;
+    line-height: 25px;
+    color: #fc5050;
+}
+
+.card .myword {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 15px;
+    text-align: center;
+    line-height: 25px;
+    color: #003049;
+}
+
+.card .heart {
+    position: relative;
+    width: 35px;
+    height: 35px;
+    background: red;
+    bottom: 20px;
+    transform: rotate(45deg);
+    border-radius: 50% 0 0 50%;
+}
+
+.card .heart::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: red;
+    border-radius: 0 50% 50% 0;
+    right: 0;
+    transform: rotate(-90deg);
+    transform-origin: top;
+}
+
+.card .heart::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: red;
+    right: -18px;
+}
+
+@keyframes up {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-30px);
+    }
+}
+
+.valentines::before {
+    content: '';
+    position: absolute;
+    width: 330px;
+    height: 25px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, .3);
+    top: 265px;
+    left: -15px;
+    animation: scale 3s linear infinite;
+}
+
+@keyframes scale {
+
+    0%,
+    100% {
+        transform: scaleX(1);
+    }
+
+    50% {
+        transform: scaleX(.85);
+    }
+}
+
+/* ----------------- 測驗用樣式 ----------------- */
+:root {
+    --pink: #ff5c8d;
+    --pink2: #ff85a8;
+    --bg: #fff5f8;
+    --ok: #18a058;
+    --bad: #d03050;
+}
+
+.wrap {
+    width: 50%;
+    /* 讓容器佔整個頁面 50% */
+    min-width: 600px;
+    /* （可選）避免太窄 */
+    margin: auto;
+    /* 置中 */
+    padding: 24px;
+}
+
+h1 {
+    margin: 8px 0 4px;
+    font-size: clamp(22px, 3.6vw, 34px)
+}
+
+.sub {
+    opacity: .7;
+    margin: 0 0 16px
+}
+
+.quiz-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .05);
+    padding: 18px 18px;
+    margin: 16px 0
+}
+
+.q-title {
+    font-weight: 700;
+    margin: 0 0 8px
+}
+
+.opt {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    cursor: pointer
+}
+
+.opt:hover {
+    background: #fff6fa
+}
+
+.opt input {
+    margin-top: 4px
+}
+
+.opt.correct {
+    border-color: rgba(24, 160, 88, .35);
+    background: #f3fff6
+}
+
+.opt.wrong {
+    border-color: rgba(208, 48, 80, .35);
+    background: #fff3f6
+}
+
+.msg {
+    font-size: 13px;
+    margin-left: 28px
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 14px 0
+}
+
+.btn {
+    border: 0;
+    background: var(--pink);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 700
+}
+
+.btn.secondary {
+    background: #fff;
+    color: #333;
+    border: 1px solid #ddd
+}
+
+.btn:disabled {
+    opacity: .5;
+    cursor: not-allowed
+}
+
+.bar {
+    height: 10px;
+    background: #ffe0ea;
+    border-radius: 999px;
+    overflow: hidden
+}
+
+.bar>i {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--pink), var(--pink2))
+}
+
+.score {
+    font-size: 20px;
+    font-weight: 800
+}
+
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700
+}
+
+.ok {
+    color: var(--ok);
+    background: #eafff1;
+    border: 1px solid rgba(24, 160, 88, .25)
+}
+
+.bad {
+    color: var(--bad);
+    background: #fff0f3;
+    border: 1px solid rgba(208, 48, 80, .25)
+}
+
+.footer {
+    opacity: .6;
+    font-size: 12px;
+    margin: 18px 0 12px;
+    text-align: center
+}
+
+details summary {
+    cursor: pointer;
+    user-select: none;
+    outline: none
+}
